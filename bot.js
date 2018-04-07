@@ -14,9 +14,11 @@ let msgLeft = parseInt(random(1, 500));
 let keywords = ["salad", "visual studio", "sluts", "visual studio code", "python", "javascript"];
 
 
-
+//function that executes when bot turns on
 bot.on("ready", async () => {
 	console.log("\n\n\n\n\n\n");
+	//prints bot's name in large ascii 
+	letters
 	figlet(bot.user.username, function (err, data) {
 		if (err) {
 			console.log(bot.user.username).toUpperCase();
@@ -28,6 +30,7 @@ bot.on("ready", async () => {
 	});
 });
 
+//function that executes once a message is sent
 bot.on("message", async message => {
 	console.log(HR+message.author.username+`said : "` + message.content + `" on ` + message.channel.name + HR);
 	if (message.author.bot || message.channel.type === "dm") return;
