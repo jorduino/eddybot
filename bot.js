@@ -90,3 +90,4 @@ bot.on("message", async message => {
 });
 
 bot.login(botsettings.token);
+//git test
