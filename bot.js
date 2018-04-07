@@ -2,13 +2,13 @@ function random(min, max) {
 	return Math.floor(Math.random() * (max - min + 1) + min);
 }
 //variable declaration
-const botsettings = require("../botsettings.json");
+const botsettings = require("/Users/jordanhabash/Desktop/programming/discordbot/botsettings.json");
 const Discord = require("discord.js");
 const figlet = require("figlet");
 const bot = new Discord.Client({
 	disableEveryone: true
 });
-const HR="\n-----------------------------------------------\n";
+const HR = "\n-----------------------------------------------\n";
 const everyoneLink = "http://i0.kym-cdn.com/photos/images/facebook/001/291/661/4cf.jpg";
 let msgLeft = parseInt(random(1, 500));
 let keywords = ["salad", "visual studio", "sluts", "visual studio code", "python", "javascript"];
@@ -18,7 +18,6 @@ let keywords = ["salad", "visual studio", "sluts", "visual studio code", "python
 bot.on("ready", async () => {
 	console.log("\n\n\n\n\n\n");
 	//prints bot's name in large ascii 
-	letters
 	figlet(bot.user.username, function (err, data) {
 		if (err) {
 			console.log(bot.user.username).toUpperCase();
@@ -32,22 +31,45 @@ bot.on("ready", async () => {
 
 //function that executes once a message is sent
 bot.on("message", async message => {
-	console.log(HR+message.author.username+`said : "` + message.content + `" on ` + message.channel.name + HR);
+	//ignores messages that the bot sends and that are DM'ed
 	if (message.author.bot || message.channel.type === "dm") return;
+
+	//console logs what the message was and who said it on which channel
+	console.log(HR + message.author.username + `said : "` + message.content + `" on ` + message.channel.name + HR);
+
+	/*
+		seperates the message into more useable parts
+		i.e. when recieve message "eddybot messages 15"
+		messageArray = ["eddybot", "messgaes", "15"]
+		command = "eddybot"
+		args = ["messages", "15"]
+	*/
 	let messageArray = message.content.split(" ");
 	let command = messageArray[0];
 	let args = messageArray.slice(1);
+
+	//initializes variable that will later hold all 
+	//trigger words that have been said in the message 
+	//recieved (selected from variable keywords)
 	let words = "";
+	//used for comma placement
 	let first = true;
+
+	//if message begins with "eddybot":
 	if (command == `eddybot`) {
+		//if message = "eddybot help", print avaliable commands
 		if (args.length == 1 && args[0] == "help") {
 			message.channel.send(`I am eddybot. Current commands:\n\`${keywords}\` \n\`eddybot help\` \n\`eddybot messages <msgleft>\` \n\`rip <person> <born> <death> (default: born=420, death: 6969)\` `);
+			//if message starts with "eddybot help" but  
+			//continues (i.e. "eddybot help some command..."), say
+			//say "nothing to be done for some command..."
 		} else if (args.length > 1 && args[0] == "help") {
 			let output = "";
 			for (let i = 1; i < args.length; i++) {
 				output += args[i] + " ";
 			}
-			message.channel.send("Nothing to be done for " + output);
+
+			message.channel.send("Nothing to be done for \`" + output + "\`");
 		}
 		if (args.length == 2 && args[0] == "messages") {
 			msgLeft = parseInt(args[1]);
