@@ -1,8 +1,9 @@
 function random(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
+
 //variable declaration
-const botsettings = require("/Users/jordanhabash/Desktop/programming/discordbot/botsettings.json");
+const botsettings = require("../../GitHub private/botsettings.json");
 const Discord = require("discord.js");
 const figlet = require("figlet");
 const bot = new Discord.Client({
@@ -18,7 +19,7 @@ let keywords = ["salad", "visual studio", "sluts", "visual studio code", "python
 
 bot.on("ready", async () => {
     console.log(HR);
-    	//prints bot's name in large ascii 
+    //prints bot's name in large ascii 
 
     figlet(bot.user.username, function (err, data) {
         if (err) {
@@ -52,28 +53,28 @@ bot.on("message", async message => {
     let args = messageArray.slice(1);
 
     //initializes variable that will later hold all 
-	//trigger words that have been said in the message 
-	//recieved (selected from variable keywords)
+    //trigger words that have been said in the message 
+    //recieved (selected from variable keywords)
     let words = "";
 
-	//used for comma placement
+    //used for comma placement
     let first = true;
 
-	//if message begins with "eddybot":
+    //if message begins with "eddybot":
     if (command == `eddybot`) {
-        		//if message = "eddybot help", print avaliable commands
+        //if message = "eddybot help", print avaliable commands
         if (args.length == 1 && args[0] == "help") {
             message.channel.send(`I am eddybot. Current commands:\n\`${keywords}\` \n\`eddybot help\` \n\`eddybot messages <msgleft>\` \n\`rip <person> <born> <death> (default: born=420, death: 6969)\` `);
-        //if message starts with "eddybot help" but  
-			//continues (i.e. "eddybot help some command..."), say
-			//say "nothing to be done for some command..."
+            //if message starts with "eddybot help" but  
+            //continues (i.e. "eddybot help some command..."), say
+            //say "nothing to be done for some command..."
         } else if (args.length > 1 && args[0] == "help") {
             let output = "";
             for (let i = 1; i < args.length; i++) {
                 output += args[i] + " ";
             }
-            
-			message.channel.send("Nothing to be done for \`" + output + "\`");
+
+            message.channel.send("Nothing to be done for \`" + output + "\`");
         }
         if (args.length == 2 && args[0] == "messages") {
             msgLeft = parseInt(args[1]);
