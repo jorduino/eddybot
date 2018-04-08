@@ -38,8 +38,7 @@ bot.on("message", async message => {
     if (message.author.bot || message.channel.type === "dm") return;
 
     //console logs what the message was and who said it on which channel
-    console.log(HR + message.author.username + `said : "` + message.content + `" on ` + message.channel.name + HR);
-    if (message.author.bot || message.channel.type === "dm") return;
+    console.log(HR + message.author.username + ` said : "` + message.content + `" on ` + message.channel.name + HR);
 
     /*
 		seperates the message into more useable parts
@@ -79,7 +78,7 @@ bot.on("message", async message => {
         if (args.length == 2 && args[0] == "messages") {
             msgLeft = parseInt(args[1]);
         }
-        if (message.content.toUpperCase().includes("OR")) {
+        if (message.content.toUpperCase().includes(" OR ")) {
             //worst line of code in the whole bot:
             message.channel.send(message.content.split(" ")[(Math.random() >= .5 ? message.content.toUpperCase().split(" ").indexOf("OR") - 1 : message.content.toUpperCase().split(" ").indexOf("OR") + 1)]);
         }
