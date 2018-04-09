@@ -1,46 +1,20 @@
-function random(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-function commands() {
-    let output = "";
-    for (command of strCommands) {
-        output += command + "\n";
-    }
-    return output;
-}
-
 //variable declaration
-const botsettings = require("../../GitHub private/botsettings.json");
-const Discord = require("discord.js");
-const figlet = require("figlet");
-const bot = new Discord.Client({
-    disableEveryone: true
-});
-const HR = "\n-----------------------------------------------\n";
-const everyoneLink = "http://i0.kym-cdn.com/photos/images/facebook/001/291/661/4cf.jpg";
-let msgLeft = parseInt(random(1, 500));
-let slutWords = ["salad", "visual studio", "sluts", "visual studio code", "python", "javascript"];
+const constants = require("./constants.js");
+
+let msgLeft = parseInt(constants.random(1, 500));
 let recentMessage = "";
 
-let strCommands = [
-    "eddybot help",
-    "eddybot messages <msgleft>",
-    "eddybot ... <something> or <something> ...",
-    slutWords,
-    "a few secret commands (i.e. your mom gay)",
-    "rip <person> <born> <died> (default: born=420, died=6969)"
-]
+
 
 //function that executes when the bot turns on
 
-bot.on("ready", async () => {
-    console.log(HR);
+constants.bot.on("ready", async () => {
+    console.log(constants.HR);
 
     //prints bot's name in large ascii 
-    figlet(bot.user.username, function (err, data) {
+    constants.figlet(constants.bot.user.username, function (err, data) {
         if (err) {
-            console.log(bot.user.username).toUpperCase();
+            console.log(constants.bot.user.username).toUpperCase();
             console.dir(err);
             return;
         }
@@ -49,15 +23,17 @@ bot.on("ready", async () => {
     });
 });
 
+
+
 //function that executes once a message is sent
-bot.on("message", async message => {
+constants.bot.on("message", async message => {
     recentMessage = message;
 
     //ignores messages that the bot sends and that are DM'ed
     if (message.author.bot || message.channel.type === "dm") return;
 
     //console logs what the message was and who said it on which channel
-    console.log(HR + "|" + message.author.username + ` said :\n|\n| "` + message.content + `"\n|\n| on ` + message.channel.name + HR);
+    console.log(constants.HR + "|" + message.author.username + ' said :\n|\n| "' + message.content + '"\n|\n| on ' + message.channel.name + constants.HR);
 
     /*
 		seperates the message into more useable parts
@@ -78,15 +54,15 @@ bot.on("message", async message => {
     //used for comma placement
     let first = true;
 
-    if (command == `eddybot`) { //"eddybot" commands:
+    if (command == 'eddybot') { //"eddybot" commands:
         if (args.length == 1 && args[0] == "help") { //"eddybot help":
-            message.channel.send(`I am eddybot. Current commands:\n'` + commands());
+            message.channel.send('I am eddybot. Current commands:\n' + constants.commands());
         } else if (args.length > 1 && args[0] == "help") { //"eddybot help ...":
             let output = "";
             for (let i = 1; i < args.length; i++) {
                 output += args[i] + " ";
             }
-            message.channel.send("Nothing to be done for \`" + output + "\`");
+            message.channel.send("Nothing to be done for `" + output + "`");
         }
 
         if (args.length == 2 && args[0] == "messages") { //"eddybot messages":
@@ -97,7 +73,7 @@ bot.on("message", async message => {
         }
     }
 
-    for (word of slutWords) {
+    for (word of constants.slutWords) {
         if (message.content.toUpperCase().includes(word.toUpperCase())) {
             if (first) {
                 first = false;
@@ -110,23 +86,24 @@ bot.on("message", async message => {
     if (words != "") {
         message.channel.send(`I'm such a slut for ${words}`);
     }
+    for (array of constants.searchWords) {
+        for (word of array[0]) {
+            if (message.content.toUpperCase().includes(word)) {
+                message.channel.send(array[1]);
+                return;
+            }
 
-    let searchWords = ["@EVERYONE", "NO U ^∞", "NO U ^", "NO U^", "NO U", "YOUR MOM GAY", "UR MOM GAY", "YOUR DAD LESBIAN", "UR DAD LESBIAN", "YOUR SISTER A MISTER", "UR SISTER A MISTER", "YOUR BROTHER A MOTHER", "UR BROTHER A MOTHER", "YOUR GRANDPAP A TRAP", "UR GRANPAP A TRAP", "YOUR GRANNY A TRANNY", "UR GRANNY A TRANNY", "YOUR ANCESTORS INCESTORS", "UR ANCESTORS INCESTORS", "YOUR FAMILY TREE LGBT", "UR FAMILY TREE LGBT"];
-    let answers = [everyoneLink, "", "No u ^∞", "No u ^∞", "No u ^2", "ur dad lesbian", "ur dad lesbian", "ur sister a mister", "ur sister a mister", "ur brother a mother", "ur brother a mother", "ur grandpap a trap", "ur grandpap a trap", "ur granny a tranny", "ur granny a tranny", "ur ancestors incestors", "ur ancestors incestors", "ur family tree LGBT", "ur family tree LGBT", "*dies*", "*dies*"];
-    for (let i = 0; i < searchWords.length; i++) {
-        if (message.content.toUpperCase().includes(searchWords[i])) {
-            message.channel.send(answers[i]);
-            return;
         }
-
     }
 
-    if (command.toUpperCase() == "RIP") {
+
+
+    if (command.toUpperCase() == "RIP" && args > 0) {
         message.channel.send("Here lies " + args[0] + "\nThey will be missed\n" + ((args.length == 3) ? ("Born:" + args[1] + "\nDied:" + args[2]) : ("Born:420\nDied:6969")));
     }
 
     if (msgLeft <= 0) {
-        msgLeft = parseInt(random(1, 500));
+        msgLeft = parseInt(constants.random(1, 500));
         message.channel.send("I eat ass");
     } else {
         msgLeft--;
@@ -143,4 +120,4 @@ stdin.addListener("data", function (d) {
         console.log("No message selected...")
     }
 });
-bot.login(botsettings.token);
+constants.bot.login(constants.botsettings.token);
