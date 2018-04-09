@@ -2,6 +2,14 @@ function random(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
+function commands() {
+    let output = "";
+    for (command of strCommands) {
+        output += command + "\n";
+    }
+    return output;
+}
+
 //variable declaration
 const botsettings = require("../../GitHub private/botsettings.json");
 const Discord = require("discord.js");
@@ -15,12 +23,21 @@ let msgLeft = parseInt(random(1, 500));
 let slutWords = ["salad", "visual studio", "sluts", "visual studio code", "python", "javascript"];
 let recentMessage = "";
 
-//function that executes when bot turns on
+let strCommands = [
+    "eddybot help",
+    "eddybot messages <msgleft>",
+    "eddybot ... <something> or <something> ...",
+    slutWords,
+    "a few secret commands (i.e. your mom gay)",
+    "rip <person> <born> <died> (default: born=420, died=6969)"
+]
+
+//function that executes when the bot turns on
 
 bot.on("ready", async () => {
     console.log(HR);
-    //prints bot's name in large ascii 
 
+    //prints bot's name in large ascii 
     figlet(bot.user.username, function (err, data) {
         if (err) {
             console.log(bot.user.username).toUpperCase();
@@ -61,30 +78,25 @@ bot.on("message", async message => {
     //used for comma placement
     let first = true;
 
-    //if message begins with "eddybot":
-    if (command == `eddybot`) {
-        //if message = "eddybot help", print avaliable commands
-        if (args.length == 1 && args[0] == "help") {
-            message.channel.send(`I am eddybot. Current commands:\n\`${slutWords}\` \n\`eddybot help\` \n\`eddybot messages <msgleft>\` \n\`rip <person> <born> <death> (default: born=420, death: 6969)\` `);
-            //if message starts with "eddybot help" but  
-            //continues (i.e. "eddybot help some command..."), say
-            //say "nothing to be done for some command..."
-        } else if (args.length > 1 && args[0] == "help") {
+    if (command == `eddybot`) { //"eddybot" commands:
+        if (args.length == 1 && args[0] == "help") { //"eddybot help":
+            message.channel.send(`I am eddybot. Current commands:\n'` + commands());
+        } else if (args.length > 1 && args[0] == "help") { //"eddybot help ...":
             let output = "";
             for (let i = 1; i < args.length; i++) {
                 output += args[i] + " ";
             }
-
             message.channel.send("Nothing to be done for \`" + output + "\`");
         }
-        if (args.length == 2 && args[0] == "messages") {
+
+        if (args.length == 2 && args[0] == "messages") { //"eddybot messages":
             msgLeft = parseInt(args[1]);
         }
-        if (message.content.toUpperCase().includes(" OR ")) {
-            //worst line of code in the whole bot:
+        if (message.content.toUpperCase().includes(" OR ")) { //"eddybot ... or ...":
             message.channel.send(message.content.split(" ")[(Math.random() >= .5 ? message.content.toUpperCase().split(" ").indexOf("OR") - 1 : message.content.toUpperCase().split(" ").indexOf("OR") + 1)]);
         }
     }
+
     for (word of slutWords) {
         if (message.content.toUpperCase().includes(word.toUpperCase())) {
             if (first) {
@@ -95,6 +107,10 @@ bot.on("message", async message => {
             }
         }
     }
+    if (words != "") {
+        message.channel.send(`I'm such a slut for ${words}`);
+    }
+
     let searchWords = ["@EVERYONE", "NO U ^∞", "NO U ^", "NO U^", "NO U", "YOUR MOM GAY", "UR MOM GAY", "YOUR DAD LESBIAN", "UR DAD LESBIAN", "YOUR SISTER A MISTER", "UR SISTER A MISTER", "YOUR BROTHER A MOTHER", "UR BROTHER A MOTHER", "YOUR GRANDPAP A TRAP", "UR GRANPAP A TRAP", "YOUR GRANNY A TRANNY", "UR GRANNY A TRANNY", "YOUR ANCESTORS INCESTORS", "UR ANCESTORS INCESTORS", "YOUR FAMILY TREE LGBT", "UR FAMILY TREE LGBT"];
     let answers = [everyoneLink, "", "No u ^∞", "No u ^∞", "No u ^2", "ur dad lesbian", "ur dad lesbian", "ur sister a mister", "ur sister a mister", "ur brother a mother", "ur brother a mother", "ur grandpap a trap", "ur grandpap a trap", "ur granny a tranny", "ur granny a tranny", "ur ancestors incestors", "ur ancestors incestors", "ur family tree LGBT", "ur family tree LGBT", "*dies*", "*dies*"];
     for (let i = 0; i < searchWords.length; i++) {
@@ -104,18 +120,27 @@ bot.on("message", async message => {
         }
 
     }
-    if (words != "") {
-        message.channel.send(`I'm such a slut for ${words}`);
-    }
 
     if (command.toUpperCase() == "RIP") {
         message.channel.send("Here lies " + args[0] + "\nThey will be missed\n" + ((args.length == 3) ? ("Born:" + args[1] + "\nDied:" + args[2]) : ("Born:420\nDied:6969")));
     }
+
     if (msgLeft <= 0) {
         msgLeft = parseInt(random(1, 500));
         message.channel.send("I eat ass");
     } else {
         msgLeft--;
+    }
+
+});
+
+let stdin = process.openStdin();
+
+stdin.addListener("data", function (d) {
+    if (recentMessage != "") {
+        recentMessage.channel.send(d.toString().trim());
+    } else {
+        console.log("No message selected...")
     }
 });
 bot.login(botsettings.token);
