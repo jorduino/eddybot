@@ -12,8 +12,8 @@ const bot = new Discord.Client({
 const HR = "\n-----------------------------------------------\n";
 const everyoneLink = "http://i0.kym-cdn.com/photos/images/facebook/001/291/661/4cf.jpg";
 let msgLeft = parseInt(random(1, 500));
-let keywords = ["salad", "visual studio", "sluts", "visual studio code", "python", "javascript"];
-
+let slutWords = ["salad", "visual studio", "sluts", "visual studio code", "python", "javascript"];
+let recentMessage = "";
 
 //function that executes when bot turns on
 
@@ -34,11 +34,13 @@ bot.on("ready", async () => {
 
 //function that executes once a message is sent
 bot.on("message", async message => {
+    recentMessage = message;
+
     //ignores messages that the bot sends and that are DM'ed
     if (message.author.bot || message.channel.type === "dm") return;
 
     //console logs what the message was and who said it on which channel
-    console.log(HR + message.author.username + ` said : "` + message.content + `" on ` + message.channel.name + HR);
+    console.log(HR + "|" + message.author.username + ` said :\n|\n| "` + message.content + `"\n|\n| on ` + message.channel.name + HR);
 
     /*
 		seperates the message into more useable parts
@@ -53,7 +55,7 @@ bot.on("message", async message => {
 
     //initializes variable that will later hold all 
     //trigger words that have been said in the message 
-    //recieved (selected from variable keywords)
+    //recieved (selected from variable slutWords)
     let words = "";
 
     //used for comma placement
@@ -63,7 +65,7 @@ bot.on("message", async message => {
     if (command == `eddybot`) {
         //if message = "eddybot help", print avaliable commands
         if (args.length == 1 && args[0] == "help") {
-            message.channel.send(`I am eddybot. Current commands:\n\`${keywords}\` \n\`eddybot help\` \n\`eddybot messages <msgleft>\` \n\`rip <person> <born> <death> (default: born=420, death: 6969)\` `);
+            message.channel.send(`I am eddybot. Current commands:\n\`${slutWords}\` \n\`eddybot help\` \n\`eddybot messages <msgleft>\` \n\`rip <person> <born> <death> (default: born=420, death: 6969)\` `);
             //if message starts with "eddybot help" but  
             //continues (i.e. "eddybot help some command..."), say
             //say "nothing to be done for some command..."
@@ -83,13 +85,13 @@ bot.on("message", async message => {
             message.channel.send(message.content.split(" ")[(Math.random() >= .5 ? message.content.toUpperCase().split(" ").indexOf("OR") - 1 : message.content.toUpperCase().split(" ").indexOf("OR") + 1)]);
         }
     }
-    for (let i = 0; i < keywords.length; i++) {
-        if (message.content.toUpperCase().includes(keywords[i].toUpperCase())) {
+    for (word of slutWords) {
+        if (message.content.toUpperCase().includes(word.toUpperCase())) {
             if (first) {
                 first = false;
-                words += keywords[i];
+                words += word;
             } else {
-                words += ", and " + keywords[i];
+                words += ", and " + word;
             }
         }
     }
@@ -102,12 +104,12 @@ bot.on("message", async message => {
         }
 
     }
+    if (words != "") {
+        message.channel.send(`I'm such a slut for ${words}`);
+    }
 
     if (command.toUpperCase() == "RIP") {
         message.channel.send("Here lies " + args[0] + "\nThey will be missed\n" + ((args.length == 3) ? ("Born:" + args[1] + "\nDied:" + args[2]) : ("Born:420\nDied:6969")));
-    }
-    if (words != "") {
-        message.channel.send(`I'm such a slut for ${words}`);
     }
     if (msgLeft <= 0) {
         msgLeft = parseInt(random(1, 500));
@@ -115,6 +117,5 @@ bot.on("message", async message => {
     } else {
         msgLeft--;
     }
-    console.log(msgLeft + " messages left");
 });
 bot.login(botsettings.token);
