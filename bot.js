@@ -86,6 +86,7 @@ constants.bot.on("message", async message => {
     if (words != "") {
         message.channel.send(`I'm such a slut for ${words}`);
     }
+
     for (array of constants.searchWords) {
         for (word of array[0]) {
             if (message.content.toUpperCase().includes(word)) {
