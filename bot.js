@@ -76,7 +76,7 @@ constants.bot.on("message", async message => {
         constants.rip(message, args)
     }
 
-    constants.checkMessagesLeft(message);
+    constants.checkMessagesLeft(message, msgLeft);
 
 });
 
