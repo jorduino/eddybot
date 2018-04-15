@@ -14,7 +14,7 @@ constants.bot.on("ready", async () => {
     //prints bot's name in large ascii 
     constants.figlet(constants.bot.user.username, function (err, data) {
         if (err) {
-            console.log(constants.bot.user.username).toUpperCase();
+            console.log(constants.bot.user.username.toUpperCase());
             console.dir(err);
             return;
         }
@@ -27,21 +27,14 @@ constants.bot.on("ready", async () => {
 
 //function that executes once a message is sent
 constants.bot.on("message", async message => {
-    recentMessage = message;
-
     //ignores messages that the bot sends and that are DM'ed
     if (message.author.bot || message.channel.type === "dm") return
 
+    recentMessage = message;
+
     //console logs what the message was and who said it on which channel
     constants.printMsg(message);
-
-    /*
-		seperates the message into more useable parts
-		i.e. when recieve message "eddybot messages 15"
-		messageArray = ["eddybot", "messgaes", "15"]
-		command = "eddybot"
-		args = ["messages", "15"]
-	*/
+    //seperates the message into more useable parts		
     let messageArray = message.content.split(" ");
     let command = messageArray[0];
     let args = messageArray.slice(1);
@@ -62,11 +55,7 @@ constants.bot.on("message", async message => {
                 msgLeft = parseInt(args[1]);
             } else if (message.content.toUpperCase().includes(" OR ")) { //"eddybot ... or ...":
                 message.channel.send(message.content.split(" ")[(Math.random() >= .5 ? message.content.toUpperCase().split(" ").indexOf("OR") - 1 : message.content.toUpperCase().split(" ").indexOf("OR") + 1)]);
-            } else {
-                message.channel.send("unknown command");
             }
-        } else {
-            message.channel.send("too few arguments");
         }
     }
 
@@ -77,8 +66,8 @@ constants.bot.on("message", async message => {
     }
 
     constants.checkMessagesLeft(message, msgLeft);
-
 });
+
 
 let stdin = process.openStdin();
 
