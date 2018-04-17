@@ -123,7 +123,7 @@ let printMsg = function (message) {
 let rip = function (message, args) {
     message.channel.send("Here lies " + args[0] + "\nThey will be missed\n" + ((args.length == 3) ? ("Born:" + args[1] + "\nDied:" + args[2]) : ("Born:420\nDied:6969")));
 };
-let checkMessagesLeft = function (message) {
+let checkMessagesLeft = function (message, msgLeft) {
     if (msgLeft <= 0) {
         msgLeft = parseInt(random(1, 500));
         message.channel.send("I eat ass");
@@ -145,5 +145,6 @@ module.exports = {
     commands,
     findWords,
     printMsg,
-    rip
+    rip,
+    checkMessagesLeft
 }
