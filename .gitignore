@@ -259,3 +259,10 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+*.gitignore
+node_modules/
+._constants.js
+._package-lock.json
+.vscode/
+package-lock.json
+package.json
