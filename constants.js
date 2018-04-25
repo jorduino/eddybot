@@ -131,6 +131,9 @@ let checkMessagesLeft = function (message, msgLeft) {
         msgLeft--;
     }
 }
+let quad=function(a,b,c,operater){
+    return((-b+operater*Math.sqrt(Math.pow(b,2)-4*a*c))/(2*a));
+}
 module.exports = {
     everyoneLink,
     Discord,
@@ -146,5 +149,6 @@ module.exports = {
     findWords,
     printMsg,
     rip,
-    checkMessagesLeft
+    checkMessagesLeft,
+    quad
 }

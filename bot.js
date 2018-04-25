@@ -55,6 +55,20 @@ constants.bot.on("message", async message => {
                 msgLeft = parseInt(args[1]);
             } else if (message.content.toUpperCase().includes(" OR ")) { //"eddybot ... or ...":
                 message.channel.send(message.content.split(" ")[(Math.random() >= .5 ? message.content.toUpperCase().split(" ").indexOf("OR") - 1 : message.content.toUpperCase().split(" ").indexOf("OR") + 1)]);
+            } else if (args[0].toUpperCase() == "SOLVE") {
+                if (args[1].toUpperCase() == "QUADRATIC") {
+                    let equation = args[2];
+                    let a = parseInt(equation.slice(0, equation.indexOf("x^2")));
+                    equation = equation.slice(equation.indexOf("x^2") + 3)
+                    let b = parseInt(equation.slice(0, equation.indexOf("x")));
+                    equation = equation.slice(equation.indexOf("x") + 1);
+                    let c = parseInt(equation.slice(0));
+                    if (!(a && b && c)) {
+                        message.channel.send("nan");
+                    } else {
+                        message.channel.send("x= " + constants.quad(a, b, c, 1) + "\nx= " + constants.quad(a, b, c, -1));
+                    }
+                }
             }
         }
     }
