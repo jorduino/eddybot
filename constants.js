@@ -63,6 +63,10 @@ let searchWords = [
 let botsettings = require("../../GitHub private/botsettings.json");
 let figlet = require("figlet");
 let HR = "\n-----------------------------------------------\n";
+let CR = [
+  "\n/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\\n|                                              |",
+  "|                                              |\n\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\n"
+];
 let bot = new Discord.Client({
   disableEveryone: true
 });
@@ -143,6 +147,7 @@ module.exports = {
   botsettings,
   figlet,
   HR,
+  CR,
   bot,
   random,
   commands,
