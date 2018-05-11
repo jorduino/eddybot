@@ -120,7 +120,7 @@ stdin.addListener("data", function(d) {
   }
 });
 
-bot.on('disconnect', function(erMsg, code) {
+constants.bot.on('disconnect', function(erMsg, code) {
     console.log('----- Bot disconnected from Discord with code', code, 'for reason:', erMsg, '-----');
     bot.connect();
 });
