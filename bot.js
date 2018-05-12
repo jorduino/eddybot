@@ -24,13 +24,14 @@ constants.bot.on("ready", async () => {
 
 //function that executes once a message is sent
 constants.bot.on("message", async message => {
+  constants.debug.send(new Date());
+  //console logs what the message was and who said it on which channel
+  constants.printMsg(message);
   //ignores messages that the bot sends and that are DM'ed
   if (message.author.bot || message.channel.type === "dm") return
 
   recentMessage = message;
 
-  //console logs what the message was and who said it on which channel
-  constants.printMsg(message);
   //seperates the message into more useable parts
   let messageArray = message.content.split(" ");
   let command = messageArray[0];
