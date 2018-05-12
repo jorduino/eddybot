@@ -139,26 +139,6 @@ let quad = function(a, b, c, operater) {
   return ((-b + operater * Math.sqrt(Math.pow(b, 2) - 4 * a * c)) / (2 * a));
 }
 
-//server stuff
-const http = require('http')
-const port = 3000
-
-const requestHandler = (request, response) => {
-  console.log(request.url)
-  response.end('Hello Node.js Server!')
-}
-
-const server = http.createServer(requestHandler)
-
-server.listen(port, (err) => {
-  if (err) {
-    return console.log('something bad happened', err)
-  }
-
-  console.log(`server is listening on ${port}`)
-})
-//end server stuff
-
 let debug ={
   send:function(string){
     console.log(string);
