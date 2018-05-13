@@ -32,10 +32,10 @@ constants.bot.on("message", async message => {
   //console logs what the message was and who said it on which channel
   constants.printMsg(message);
   //seperates the message into more useable parts
-  let messageArray = message.content.split(" ");
-  let command = messageArray[0];
+  let messageArray = message.content.split(" ") 
+	let command = messageArray[0];
   let args = messageArray.slice(1);
-  let consoleInfo="";
+  let consoleInfo = "";
   console.log(constants.CR[0]);
   console.log("    command: " + command + "\n    args: " + args);
   if (command.toUpperCase() == 'EDDYBOT') { //"eddybot" commands:
@@ -82,7 +82,7 @@ constants.bot.on("message", async message => {
             message.channel.send("x= " + constants.quad(a, b, c, 1) + "\nx= " + constants.quad(a, b, c, -1));
           }
         }
-      } else if (args[0].toUpperCase() == "FIGLET") {
+      } else if (args[0].toUpperCase() == "FIGLET") { //"eddybot figlet"
         console.log("    command found: figlet");
         let words = "";
         for (let string of args.slice(1)) {
@@ -90,7 +90,7 @@ constants.bot.on("message", async message => {
         }
         constants.figlet(words, function(err, data) {
           if (err) {
-            consoleInfo+="error get:\n"+err;
+            consoleInfo += "error get:\n" + err;
             return;
           }
           message.channel.send("```\n" + data + "\n```");
@@ -105,7 +105,7 @@ constants.bot.on("message", async message => {
     console.log("    command found: RIP");
     constants.rip(message, args)
   }
-console.log(constants.CR[1]);
+  console.log(constants.CR[1]);
   constants.checkMessagesLeft(message, msgLeft);
 });
 
@@ -121,7 +121,7 @@ stdin.addListener("data", function(d) {
 });
 
 bot.on('disconnect', function(erMsg, code) {
-    console.log('----- Bot disconnected from Discord with code', code, 'for reason:', erMsg, '-----');
-    bot.connect();
+  console.log('----- Bot disconnected from Discord with code', code, 'for reason:', erMsg, '-----');
+  bot.connect();
 });
 constants.bot.login(constants.botsettings.token);
