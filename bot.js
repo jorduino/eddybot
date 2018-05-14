@@ -33,17 +33,12 @@ constants.bot.on("message", async message => {
   recentMessage = message;
 
   //seperates the message into more useable parts
-  let messageArray = message.content.split(" ") 
+  let messageArray = message.content.split(" ")
 	let command = messageArray[0];
   let args = messageArray.slice(1);
   let consoleInfo = "";
-<<<<<<< HEAD
-  console.log(constants.CR[0]);
-  console.log("    command: " + command + "\n    args: " + args);
-=======
   constants.debug.send(constants.CR[0]);
   constants.debug.send("    command: " + command + "\n    args: " + args);
->>>>>>> b43153a33f66f172754d1a7095cab2a3a53ee7df
   if (command.toUpperCase() == 'EDDYBOT') { //"eddybot" commands:
     constants.debug.send("    command found: eddybot");
     if (args.length > 0) {
@@ -88,13 +83,8 @@ constants.bot.on("message", async message => {
             message.channel.send("x= " + constants.quad(a, b, c, 1) + "\nx= " + constants.quad(a, b, c, -1));
           }
         }
-<<<<<<< HEAD
-      } else if (args[0].toUpperCase() == "FIGLET") { //"eddybot figlet"
-        console.log("    command found: figlet");
-=======
       } else if (args[0].toUpperCase() == "FIGLET") {
         constants.debug.send("    command found: figlet");
->>>>>>> b43153a33f66f172754d1a7095cab2a3a53ee7df
         let words = "";
         for (let string of args.slice(1)) {
           words += string + " "
@@ -116,14 +106,9 @@ constants.bot.on("message", async message => {
     constants.debug.send("    command found: RIP");
     constants.rip(message, args)
   }
-<<<<<<< HEAD
-  console.log(constants.CR[1]);
-=======
   constants.debug.send(constants.CR[1]);
->>>>>>> b43153a33f66f172754d1a7095cab2a3a53ee7df
   constants.checkMessagesLeft(message, msgLeft);
 });
-
 
 let stdin = process.openStdin();
 
@@ -135,13 +120,9 @@ stdin.addListener("data", function(d) {
   }
 });
 
-<<<<<<< HEAD
-bot.on('disconnect', function(erMsg, code) {
-  console.log('----- Bot disconnected from Discord with code', code, 'for reason:', erMsg, '-----');
-=======
 constants.bot.on('disconnect', function(erMsg, code) {
   constants.debug.send('----- Bot disconnected from Discord with code', code, 'for reason:', erMsg, '-----');
->>>>>>> b43153a33f66f172754d1a7095cab2a3a53ee7df
   bot.connect();
 });
+
 constants.bot.login(constants.botsettings.token);
