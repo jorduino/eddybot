@@ -114,7 +114,7 @@ let findWords = function(message) {
   }
 };
 let printMsg = function(message) {
-  console.log(
+  debug.send(
     HR +
     "|" + message.author.username + ' said :' +
     '\n|' +
@@ -138,6 +138,13 @@ let checkMessagesLeft = function(message, msgLeft) {
 let quad = function(a, b, c, operater) {
   return ((-b + operater * Math.sqrt(Math.pow(b, 2) - 4 * a * c)) / (2 * a));
 }
+
+let debug ={
+  send:function(string){
+    console.log(string);
+  }
+}
+
 module.exports = {
   everyoneLink,
   Discord,
@@ -155,5 +162,6 @@ module.exports = {
   printMsg,
   rip,
   checkMessagesLeft,
-  quad
+  quad,
+  debug
 }
