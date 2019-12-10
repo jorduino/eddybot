@@ -35,7 +35,7 @@ parseMessage = async(message, oldMessage) => {
                     message.channel.send(message.content.split(" ")[(Math.random() >= .5 ? message.content.toUpperCase().split(" ").indexOf("OR") - 1 : message.content.toUpperCase().split(" ").indexOf("OR") + 1)]);
                 } else if (args[0].toUpperCase() == "SOLVE") {
                     let expression = args.slice(1).join(' ');
-                    message.channel.send(constants.Algebrite.run(expression));
+                    message.channel.send('```' + constants.Algebrite.run(expression) + '```');
                 } else if (args[0].toUpperCase() == "FIGLET") {
                     let words = "";
                     for (let string of args.slice(1)) {
