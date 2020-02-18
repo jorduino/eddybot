@@ -126,6 +126,8 @@ let findWords = function(message) {
     }
 };
 let printMsg = function(message, newMessage) {
+    let servername = message.guild ? (message.guild.name || "idk") : "idk";
+    let channelname = message.channel.name || "a private server maybe?";
     if (message && newMessage) {
         debug.send(
             HR[0].red +
@@ -134,7 +136,7 @@ let printMsg = function(message, newMessage) {
             '\n│'.red +
             '\n│'.red + ' "' + Colors.cyan(message.content) + '" to "' + Colors.cyan(newMessage.content) + '"' +
             '\n│'.red +
-            '\n│ '.red + 'on ' + Colors.red(message.channel.name) +
+            '\n│ '.red + 'on ' + Colors.yellow(servername) + "." + Colors.red(channelname) +
             HR[1].red
         );
     } else if (message) {
@@ -145,7 +147,7 @@ let printMsg = function(message, newMessage) {
             '\n│'.cyan +
             '\n│'.cyan + ' "' + Colors.yellow(message.content) + '"' +
             '\n│'.cyan +
-            '\n│'.cyan + ' on ' + Colors.red(message.channel.name) +
+            '\n│'.cyan + ' on ' + Colors.yellow(servername) + "." + Colors.red(channelname) +
             HR[1].cyan
         );
     } else {
@@ -162,11 +164,9 @@ let receivedMsg = function(message, oldMessage) {
         //console logs what the message was and who said it on which channel
         printMsg(message, oldMessage);
         //ignores messages that the bot sends and that are DM'ed
-        if (message.author.bot) return
-
-        recentMessage = message;
+        return message;
     } else {
-        return;
+        return "";
     }
 };
 let rip = function(message, args) {

@@ -3,10 +3,11 @@ const constants = require("./constants.js");
 
 let msgLeft = parseInt(constants.random(1, 500));
 let recentMessage = "";
+
 parseMessage = async(message, oldMessage) => {
-    if (message.author.bot) return;
     try {
-        constants.receivedMsg(message, oldMessage);
+        recentMessage = constants.receivedMsg(message, oldMessage);
+        if (message.author.bot) return;
         //separates the message into more useable parts
         let messageArray = message.content.split(" ")
         let command = messageArray[0];
@@ -35,7 +36,10 @@ parseMessage = async(message, oldMessage) => {
                     message.channel.send(message.content.split(" ")[(Math.random() >= .5 ? message.content.toUpperCase().split(" ").indexOf("OR") - 1 : message.content.toUpperCase().split(" ").indexOf("OR") + 1)]);
                 } else if (args[0].toUpperCase() == "SOLVE") {
                     let expression = args.slice(1).join(' ');
-                    message.channel.send('```' + constants.Algebrite.run(expression) + '```');
+                    message.channel.send('```\n' + constants.Algebrite.run('print2dascii(' + expression + ')') + '\n```');
+                } else if (args[0].toUpperCase() == "SOLVERAW") {
+                    let expression = args.slice(1).join(' ');
+                    message.channel.send('```\n' + constants.Algebrite.run(expression) + '\n```');
                 } else if (args[0].toUpperCase() == "FIGLET") {
                     let words = "";
                     for (let string of args.slice(1)) {
@@ -66,7 +70,11 @@ parseMessage = async(message, oldMessage) => {
         //something went wrong
         constants.debug.send("error: " + err);
         try {
-            message.channel.send("lemme think on that")
+            if (message.author.bot) {
+                return;
+            } else {
+                message.channel.send("lemme think on that");
+            }
         } catch (err2) {
             constants.debug.send("another error: " + err + "\n and \n" + err2);
         }
@@ -80,7 +88,7 @@ stdin.addListener("data", function(d) {
     if (recentMessage != "") {
         recentMessage.channel.send(d.toString().trim());
     } else {
-        constants.debug.send("No message selected...");
+        constants.debug.send("No message selected..." + recentMessage);
     }
 });
 
