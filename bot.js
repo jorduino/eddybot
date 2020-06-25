@@ -1,114 +1,115 @@
-//variable declaration
-const constants = require("./constants.js");
+const fs = require('fs');
+const Discord = require('discord.js');
+const { prefix, token } = require("./config.json");
+const Figlet = require('figlet');
+const printMsg = require('./printMsg.js');
 
-let msgLeft = parseInt(constants.random(1, 500));
+let stdin = process.openStdin();
+
+const client = new Discord.Client();
+client.commands = new Discord.Collection();
+
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+
 let recentMessage = "";
 
-parseMessage = async(message, oldMessage) => {
-    try {
-        recentMessage = constants.receivedMsg(message, oldMessage);
-        if (message.author.bot) return;
-        //separates the message into more useable parts
-        let messageArray = message.content.split(" ")
-        let command = messageArray[0];
-        let args = messageArray.slice(1);
-        let consoleInfo = "";
+for (const file of commandFiles) {
+    const command = require(`./commands/${file}`);
+    client.commands.set(command.name, command);
+}
 
-        if (command.toUpperCase() == 'EDDYBOT') { //"eddybot" commands:
-            if (args.length > 0) {
-                if (args[0].toUpperCase() == "HELP") {
+const cooldowns = new Discord.Collection();
 
-                    if (args.length == 1) { //"eddybot help":
+client.once('ready', async () => {
+    //prints eddy's name in large ascii
+    console.clear();
+    Figlet(client.user.username, function (err, data) {
+        if (err) {
+            console.log(constants.bot.user.username.toUpperCase());
+            console.dir(err);
+            return;
+        }
+        console.log(data);
+        console.log("Bot is ready");
+    });
+})
+    .on('message', message => {
+        recentMessage = logMessages(message);
+        if (!message.content.startsWith(prefix) || message.author.bot) return;
+        printMsg(message);
+        const args = message.content.slice(prefix.length).split(/ +/);
+        const commandName = args.shift().toLowerCase();
 
-                        message.channel.send('I am eddybot. Current commands:\n' + constants.commands());
-                    } else { //"eddybot help ...":
+        const command = client.commands.get(commandName)
+            || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
-                        let output = "";
-                        for (let i = 1; i < args.length; i++) {
-                            output += args[i] + " ";
-                        } //end for
-                        message.channel.send("Nothing to be done for `" + output + "`");
-                    } //end if
-                } else if (args.length == 2 && args[0].toUpperCase() == "MESSAGES") { //"eddybot messages":
-                    msgLeft = parseInt(args[1]);
-                } else if (message.content.toUpperCase().includes(" OR ")) { //"eddybot ... or ...":
+        if (!command) return;
 
-                    message.channel.send(message.content.split(" ")[(Math.random() >= .5 ? message.content.toUpperCase().split(" ").indexOf("OR") - 1 : message.content.toUpperCase().split(" ").indexOf("OR") + 1)]);
-                } else if (args[0].toUpperCase() == "SOLVE") {
-                    let expression = args.slice(1).join(' ');
-                    message.channel.send('```\n' + constants.Algebrite.run('print2dascii(' + expression + ')') + '\n```');
-                } else if (args[0].toUpperCase() == "SOLVERAW") {
-                    let expression = args.slice(1).join(' ');
-                    message.channel.send('```\n' + constants.Algebrite.run(expression) + '\n```');
-                } else if (args[0].toUpperCase() == "FIGLET") {
-                    let words = "";
-                    for (let string of args.slice(1)) {
-                        words += string + " "
-                    }
-                    constants.Figlet(words, function(err, data) {
-                        if (err) {
-                            consoleInfo += "error get:\n" + err;
-                            return;
-                        }
-                        message.channel.send("```\n" + data + "\n```");
-                    });
-                } else {
-                    message.channel.send("um... what?");
-                }
-            } else {
-                message.channel.send("Yes...?");
+        if (command.guildOnly && message.channel.type !== 'text') {
+            return message.reply('I can\'t execute that command inside DMs!');
+        }
+
+        if (command.args && !args.length) {
+            let reply = `You didn't provide any arguments, ${message.author}!`;
+
+            if (command.usage) {
+                reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
+            }
+
+            return message.channel.send(reply);
+        }
+        if (!cooldowns.has(command.name)) {
+            cooldowns.set(command.name, new Discord.Collection());
+        }
+    
+        const now = Date.now();
+        const timestamps = cooldowns.get(command.name);
+        const cooldownAmount = (command.cooldown || 3) * 1000;
+    
+        if (timestamps.has(message.author.id)) {
+            const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+    
+            if (now < expirationTime) {
+                const timeLeft = (expirationTime - now) / 1000;
+                return message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`);
             }
         }
-
-        constants.findWords(message);
-
-        if (command.toUpperCase() == "RIP" && args.length > 0) {
-            constants.rip(message, args)
-        }
-        constants.checkMessagesLeft(message, msgLeft);
-    } catch (err) {
-        //something went wrong
-        constants.debug.send("error: " + err);
+    
+        timestamps.set(message.author.id, now);
+        setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+    
         try {
-            if (message.author.bot) {
-                return;
-            } else {
-                message.channel.send("lemme think on that");
-            }
-        } catch (err2) {
-            constants.debug.send("another error: " + err + "\n and \n" + err2);
+            command.execute(message, args);
+        } catch (error) {
+            console.error(error);
+            message.reply('there was an error trying to execute that command!');
         }
+    }).on('messageUpdate', (oldMessage, newMessage) => {
+        printMsg(oldMessage, newMessage);
+    })
+    .on('disconnect', (erMsg, code) => {
+        constants.debug.send('----- Bot disconnected from Discord with code', code, 'for reason:', erMsg, '-----');
+        bot.connect();
+    })
+    .login(token);
+
+
+let logMessages = function (message, oldMessage) {
+    if (message) {
+        //console logs what the message was and who said it on which channel
+        printMsg(message, oldMessage);
+        //ignores messages that the bot sends and that are DM'ed
+        return message;
+    } else {
+        return "";
     }
 };
 
 
-let stdin = process.openStdin();
-
-stdin.addListener("data", function(d) {
+stdin.addListener("data", function (d) {
     if (recentMessage != "") {
         recentMessage.channel.send(d.toString().trim());
     } else {
-        constants.debug.send("No message selected..." + recentMessage);
+        console.log("No message selected..." + recentMessage);
     }
 });
-
-constants.bot.on("ready", async() => {
-        //prints eddy's name in large ascii
-        console.clear();
-        constants.Figlet(constants.bot.user.username, function(err, data) {
-            if (err) {
-                constants.debug.send(constants.bot.user.username.toUpperCase());
-                console.dir(err);
-                return;
-            }
-            constants.debug.send(data);
-            constants.debug.send("Bot is ready");
-        });
-    })
-    .on("messageUpdate", parseMessage)
-    .on("message", parseMessage)
-    .on('disconnect', function(erMsg, code) {
-        constants.debug.send('----- Bot disconnected from Discord with code', code, 'for reason:', erMsg, '-----');
-        bot.connect();
-    })
-    .login(constants.botsettings.token);

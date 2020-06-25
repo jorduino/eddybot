@@ -1,0 +1,31 @@
+{
+  "name": "eddybot",
+  "version": "1.0.0",
+  "description": "Discord Bot for fun",
+  "main": "bot.js",
+  "dependencies": {
+    "algebrite": "*",
+    "colors": "*",
+    "discord.js": "*",
+    "figlet": "*",
+    "fs": "*"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node bot.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jorduino/eddybot.git"
+  },
+  "keywords": [
+    "Discord",
+    "Bot"
+  ],
+  "author": "Jordan Habash",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jorduino/eddybot/issues"
+  },
+  "homepage": "https://github.com/jorduino/eddybot#readme"
+}
