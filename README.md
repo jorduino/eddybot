@@ -1,4 +1,10 @@
 
 # Eddybot
 
-Eddybot from discord. Please feel free to edit this code to make it more readable or usable.
+## About
+
+This is a discord bot orriginally based off of my friend Eddy.
+
+## Usage
+
+All commands can be found in the `/commands` folder or by saying `++help` to eddybot.
