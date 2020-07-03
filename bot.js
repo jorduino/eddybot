@@ -36,7 +36,6 @@ client.once('ready', async () => {
     .on('message', message => {
         recentMessage = logMessages(message);
         if (!message.content.startsWith(prefix) || message.author.bot) return;
-        printMsg(message);
         const args = message.content.slice(prefix.length).split(/ +/);
         const commandName = args.shift().toLowerCase();
 
