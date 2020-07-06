@@ -13,6 +13,6 @@ module.exports = {
 
         let clnEval = evaluation.replace(/ /g, "&space;")
 
-        message.channel.send(`https://latex.codecogs.com/png.latex?\\bg_white&space;\\huge&space;${clnEval}`);
+        message.channel.send(`https://latex.codecogs.com/png.latex?\\huge&space;${clnEval}`);
     }
 }
