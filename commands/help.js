@@ -18,7 +18,8 @@ module.exports = {
 			return message.author.send(data, { split: true })
 				.then(() => {
 					if (message.channel.type === 'dm') return;
-					message.reply('I\'ve sent you a DM with all my commands!');
+					message.channel.send('I\'ve sent you a DM with all my commands!').then(message => message.delete({ timeout: 1000 }));
+					message.delete({ timeout: 2000 });
 				})
 				.catch(error => {
 					console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
