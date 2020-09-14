@@ -2,7 +2,7 @@
   "name": "eddybot",
   "version": "1.0.0",
   "description": "Discord Bot for fun",
-  "main": "bot.js",
+  "main": "main.js",
   "dependencies": {
     "algebrite": "*",
     "colors": "*",
@@ -10,9 +10,12 @@
     "figlet": "*",
     "fs": "*"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "electron": "^9.2.1"
+  },
   "scripts": {
-    "test": "node bot.js"
+    "test": "node bot.js",
+    "start": "electron ."
   },
   "repository": {
     "type": "git",
