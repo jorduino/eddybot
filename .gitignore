@@ -117,3 +117,5 @@ dist
 
 # config.json
 config.json
+
+*.icloud

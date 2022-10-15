@@ -1,16 +1,18 @@
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+
 module.exports = {
-	name: 'avatar',
-	description: 'Get the avatar URL of the tagged user(s), or your own avatar.',
-	aliases: ['icon', 'pfp'],
-	execute(message) {
-		if (!message.mentions.users.size) {
-			return message.channel.send(`Your avatar: <${message.author.displayAvatarURL({ dynamic: true })}>`);
-		}
+	data: new SlashCommandBuilder()
+		.setName('avatar')
+		.setDescription('Get the avatar URL of the tagged user(s), or your own avatar.')
+		.addUserOption(option => option.setName('user')
+			.setDescription('User to get avatar from')
+			.setRequired(true)),
+	async execute(interaction) {
+		const user = interaction.options.getUser('user');
+		const profileImage = new EmbedBuilder()
+			.setTitle('Here is the profile picture')
+			.setImage(user.displayAvatarURL({ dynamic: true }));
 
-		const avatarList = message.mentions.users.map(user => {
-			return `${user.username}'s avatar: <${user.displayAvatarURL({ dynamic: true })}>`;
-		});
-
-		message.channel.send(avatarList);
+		await interaction.reply({ embeds: [profileImage] });
 	},
 };

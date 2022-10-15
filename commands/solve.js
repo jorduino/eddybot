@@ -1,18 +1,32 @@
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 let Algebrite = require('algebrite');
 
 module.exports = {
-    name: 'solve',
-    description: 'Uses algebrite CAS to solve an expression, returns dark bg image of result',
-    args: true,
-    usage: "<expression> ...\nFor information, visit http://algebrite.org/docs/latest-stable/reference.html",
-    aliases: ['solveBlack', 'solveB', 'solveDark', 'solveD', 's', 'sd', 'sb'],
-    cooldown:0,
-    execute(message, args) {
-        let expression = args.join(' ');
+    data: new SlashCommandBuilder()
+        .setName('solve')
+        .setDescription('Uses algebrite CAS to solve an expression, returns an image of result')
+        .addStringOption(option =>
+            option.setName('expression')
+                .setDescription('Algebrite expression')
+                .setRequired(true))
+        .addStringOption(option =>
+            option.setName('background')
+                .setDescription('Background color of image (black by default)')
+                .addChoices(
+                    { name: 'Black', value: 'bg_black' },
+                    { name: 'White', value: 'bg_white' },
+                    { name: 'Transparent', value: '\\' },
+                )),
+    async execute(interaction, args) {
+        const expression = interaction.options.getString('expression');
         let evaluation = Algebrite.run(`printlatex(${expression})`);
+        let bg = interaction.options.getString('background');
 
         let clnEval = evaluation.replace(/ /g, "&space;")
+        const latexImage = new EmbedBuilder()
+            .setTitle("`" + expression + ":`")
+            .setImage(`https://latex.codecogs.com/png.latex?\\${bg}&space;\\huge&space;${clnEval}`);
 
-        message.channel.send(`https://latex.codecogs.com/png.latex?\\bg_black&space;\\huge&space;${clnEval}`);
+        await interaction.reply({ embeds: [latexImage] });
     }
 }

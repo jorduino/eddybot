@@ -6,12 +6,9 @@
   "dependencies": {
     "algebrite": "*",
     "colors": "*",
-    "discord.js": "*",
-    "figlet": "*",
+    "discord.js": "^14.6.0",
+    "figlet": "^1.5.2",
     "fs": "*"
-  },
-  "devDependencies": {
-    "electron": "^13.6.6"
   },
   "scripts": {
     "test": "node bot.js",

@@ -1,10 +1,25 @@
+const { SlashCommandBuilder } = require('discord.js');
+
 module.exports = {
-    name: 'rip',
-    description: 'custom tombstone',
-    args:true,
-    usage:"<name> [year born] [year died]",
-    execute(message, args) {
-        message.channel.send("Here lies " + args[0] + "\nThey will be missed\n" + ((args.length == 3) ? ("Born:" + args[1] + "\nDied:" + args[2]) : ("Born:420\nDied:6969")));
+    data: new SlashCommandBuilder()
+        .setName('rip')
+        .setDescription('custom tombstone')
+        .addUserOption(option =>
+            option.setName('user')
+                .setDescription('User on the tombstone')
+                .setRequired(true))
+        .addNumberOption(option =>
+            option.setName('born')
+                .setDescription('Year they were born'))
+        .addNumberOption(option =>
+            option.setName('died')
+                .setDescription('Year they died')),
+    async execute(interaction) {
+        const user = interaction.options.getUser('user');
+        const born = interaction.options.getNumber('born') || 420;
+        const died = interaction.options.getNumber('died') || 6969;
+
+        interaction.reply("Here lies " + user.member + "\nThey will be missed\n" + "Born:" + born + "\nDied:" + died);
 
     }
 }
