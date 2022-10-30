@@ -15,11 +15,11 @@ module.exports = {
             option.setName('died')
                 .setDescription('Year they died')),
     async execute(interaction) {
-        const user = interaction.options.getUser('user');
+        const user = interaction.options.getUser('user').username;
         const born = interaction.options.getNumber('born') || 420;
         const died = interaction.options.getNumber('died') || 6969;
 
-        interaction.reply("Here lies " + user.member + "\nThey will be missed\n" + "Born:" + born + "\nDied:" + died);
+        interaction.reply("Here lies " + user + "\nThey will be missed\n" + "Born:" + born + "\nDied:" + died);
 
     }
 }
