@@ -1,11 +1,13 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const Figlet = require('figlet');
-
+const { deploy_commands } = require('./deploy-commands');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const { token } = require("./config.json");
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+
+deploy_commands();
 
 client.commands = new Collection();
 const commandsPath = path.join(__dirname, 'commands');
