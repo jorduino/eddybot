@@ -1,4 +1,3 @@
-
 # Eddybot
 
 ## About

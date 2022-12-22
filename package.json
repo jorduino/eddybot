@@ -1,31 +1,31 @@
 {
-  "name": "eddybot",
-  "version": "1.0.0",
-  "description": "Discord Bot for fun",
-  "main": "main.js",
-  "dependencies": {
-    "algebrite": "*",
-    "colors": "*",
-    "discord.js": "^14.6.0",
-    "figlet": "^1.5.2",
-    "fs": "*"
-  },
-  "scripts": {
-    "test": "node bot.js",
-    "start": "electron ."
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jorduino/eddybot.git"
-  },
-  "keywords": [
-    "Discord",
-    "Bot"
-  ],
-  "author": "Jordan Habash",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/jorduino/eddybot/issues"
-  },
-  "homepage": "https://github.com/jorduino/eddybot#readme"
+	"name": "eddybot",
+	"version": "1.0.0",
+	"description": "Discord Bot for fun",
+	"main": "main.js",
+	"dependencies": {
+		"algebrite": "*",
+		"colors": "*",
+		"discord.js": "^14.6.0",
+		"figlet": "^1.5.2",
+		"fs": "*"
+	},
+	"scripts": {
+		"test": "node bot.js",
+		"start": "electron ."
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/jorduino/eddybot.git"
+	},
+	"keywords": [
+		"Discord",
+		"Bot"
+	],
+	"author": "Jordan Habash",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/jorduino/eddybot/issues"
+	},
+	"homepage": "https://github.com/jorduino/eddybot#readme"
 }
