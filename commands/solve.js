@@ -1,7 +1,7 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-let Algebrite = require('algebrite');
+import { SlashCommandBuilder, EmbedBuilder } from 'discord.js'
+import Algebrite from 'algebrite'
 
-module.exports = {
+export default {
 	data: new SlashCommandBuilder()
 		.setName('solve')
 		.setDescription('Uses algebrite CAS to solve an expression, returns an image of result')

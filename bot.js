@@ -1,13 +1,19 @@
-const fs = require('node:fs');
-const path = require('node:path');
-const Figlet = require('figlet');
-const { deploy_commands } = require('./deploy-commands');
-const { Client, Collection, GatewayIntentBits } = require('discord.js');
-const { token } = require("./config.json");
+import fs from 'node:fs'
+import path from 'node:path'
+import Figlet from 'figlet'
+import deploy_commands from './deploy-commands.js'
+import { Client, Collection, GatewayIntentBits, MessageFlags } from 'discord.js'
+import config from './config.json' with { type: 'json' };
+const token = config.token;
+import { printSentMessage } from './printMsg.js'
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
-deploy_commands();
+await deploy_commands();
 
 client.commands = new Collection();
 const commandsPath = path.join(__dirname, 'commands');
@@ -15,11 +21,12 @@ const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('
 
 for (const file of commandFiles) {
 	const filePath = path.join(commandsPath, file);
-	const command = require(filePath);
+	// const fileUrl = pathToFileURL(filePath).href;
+	const { default: command } = await import(filePath);
 	client.commands.set(command.data.name, command);
 }
 
-client.once('ready', async () => {
+client.once('clientReady', async () => {
 	//prints bot's name in large ascii
 	// console.clear();
 	Figlet(client.user.username, function (err, data) {
@@ -39,10 +46,11 @@ client.once('ready', async () => {
 	if (!command) return;
 
 	try {
+		// printSentMessage(interaction)
 		await command.execute(interaction);
 	} catch (error) {
 		console.error(error);
-		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+		await interaction.reply({ content: 'There was an error while executing this command!', flags: MessageFlags.Ephemeral });
 	}
 })
 	.login(token);

@@ -1,6 +1,6 @@
-const { SlashCommandBuilder } = require('discord.js');
+import { SlashCommandBuilder } from 'discord.js'
 
-module.exports = {
+export default {
 	data: new SlashCommandBuilder().setName('user-info')
 		.setDescription('Display info about yourself.'),
 	async execute(interaction) {
