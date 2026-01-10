@@ -1,8 +1,8 @@
-const Figlet = require("figlet");
-const { SlashCommandBuilder } = require('discord.js');
+import Figlet from "figlet"
+import { SlashCommandBuilder } from 'discord.js'
 
 
-module.exports = {
+export default {
 	data: new SlashCommandBuilder()
 		.setName('figlet')
 		.setDescription('Prints messages with big characters')
@@ -14,15 +14,7 @@ module.exports = {
 	async execute(interaction, args) {
 
 		let words = interaction.options.getString('message');
-		let out;
-
-		Figlet(words, function (err, data) {
-			if (err) {
-				consoleInfo += "error get:\n" + err;
-				return;
-			}
-			out = "```\n" + data + "\n```";
-		});
+		let out = "```\n" + await Figlet.text(words) + "\n```";;
 		await interaction.reply(out);
 	}
 }

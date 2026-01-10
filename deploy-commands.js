@@ -1,24 +1,28 @@
-const fs = require('node:fs');
-const path = require('node:path');
-const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord.js');
-const { clientId, guildId, token } = require('./config.json');
-module.exports = {
-	deploy_commands: () => {
-		const commands = [];
-		const commandsPath = path.join(__dirname, 'commands');
-		const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+import fs from 'node:fs'
+import path from 'node:path'
+import { REST } from '@discordjs/rest'
+import { Routes } from 'discord.js'
+import config from './config.json' with { type: 'json' };
+import { fileURLToPath } from 'node:url';
 
-		for (const file of commandFiles) {
-			const filePath = path.join(commandsPath, file);
-			const command = require(filePath);
-			commands.push(command.data.toJSON());
-		}
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-		const rest = new REST({ version: '10' }).setToken(token);
+const { clientId, guildId, token } = config;
+export default async () => {
+	const commands = [];
+	const commandsPath = path.join(__dirname, 'commands');
+	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
-		rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands })
-			.then(() => console.log('Successfully registered application commands.'))
-			.catch(console.error);
+	for (const file of commandFiles) {
+		const filePath = path.join(commandsPath, file);
+		const { default: command } = await import(filePath)
+		commands.push(command.data.toJSON());
 	}
+
+	const rest = new REST({ version: '10' }).setToken(token);
+
+	rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands })
+		.then(() => console.log('Successfully registered application commands.'))
+		.catch(e => console.error("Error registering commands!\n" + e));
 }

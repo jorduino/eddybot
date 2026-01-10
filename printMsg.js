@@ -1,33 +1,101 @@
-const Colors = require('colors');
+import chalk from 'chalk';
+import { Message } from 'discord.js';
+function createMessage(msg, boxColor = chalk,) {
 
-module.exports = function (message, newMessage) {
-	let servername = message.guild ? (message.guild.name || 'idk') : 'idk';
-	let channelname = message.channel.name || 'a private server maybe?';
-	let data = 'there was no message?'.red
+}
+function printSentMessage(message) {
+	if (!(message instanceof Message)) {
+		throw new TypeError('printMessage expects a Discord Message object');
+	}
+
+	const serverName = message.guild?.name ?? 'DM';
+	const channelName = `#${message.channel?.name ?? 'Unknown channel'}`;
+
+	const username = message.author?.username ?? 'Unknown user';
+	const content = message.content ?? '[No content]';
+}
+function sentMessage(message) {
+	let servername = message.guild?.name || 'idk';
+	let channelname = "#" + message.channel?.name || 'a private server maybe?';
+	let data = 'there was no message?'.red;
+	let username = message.author?.username || "no user?";
+	let oldContent = message.content || message;
+	let newContent = newMessage?.content || newMessage;
+	const {
+		commandName,
+		user,
+		member,
+		guild,
+		channel
+	} = interaction;
+
 	if (message && newMessage) {
 		data =
 			'\n┌──────────────────────────────────────────────────────'.red +
 			'\n│'.red + (new Date() + '').red +
-			'\n│'.red + message.author.username.blue + ' changed :' +
+			'\n│'.red + username.blue + ' changed :' +
 			'\n│'.red +
-			'\n│'.red + '"' + Colors.cyan(message.content) + '"' +
+			'\n│'.red + '"' + oldContent.cyan + '"' +
 			'\n│'.red + 'to' +
-			'\n│'.red + '"' + Colors.cyan(newMessage.content) + '"' +
+			'\n│'.red + '"' + newContent.cyan + '"' +
 			'\n│'.red +
-			'\n│'.red + 'on ' + Colors.yellow(servername) + Colors.red('#' + channelname) +
+			'\n│'.red + 'on ' + servername.yellow + channelname.red +
 			'\n└──────────────────────────────────────────────────────\n'
 				.red
 	} else if (message) {
 		data =
 			'\n┌──────────────────────────────────────────────────────'.cyan +
 			'\n│'.cyan + (new Date() + '').cyan +
-			'\n│'.cyan + Colors.blue(message.author.username) + ' said :' +
+			'\n│'.cyan + username.blue + ' said :' +
 			'\n│'.cyan +
-			'\n│'.cyan + '"' + Colors.yellow(message.content) + '"' +
+			'\n│'.cyan + '"' + oldContent.yellow + '"' +
 			'\n│'.cyan +
-			'\n│'.cyan + ' on ' + Colors.yellow(servername) + '#' + Colors.red(channelname) +
+			'\n│'.cyan + ' on ' + servername.yellow + channelname.red +
 			'\n└──────────────────────────────────────────────────────\n'
 				.cyan
 	}
 	console.log(data)
 }
+function changedMessage(message, newMessage) {
+	let servername = message.guild?.name || 'idk';
+	let channelname = "#" + message.channel?.name || 'a private server maybe?';
+	let data = 'there was no message?'.red;
+	let username = message.author?.username || "no user?";
+	let oldContent = message.content || message;
+	let newContent = newMessage?.content || newMessage;
+	const {
+		commandName,
+		user,
+		member,
+		guild,
+		channel
+	} = interaction;
+
+	if (message && newMessage) {
+		data =
+			'\n┌──────────────────────────────────────────────────────'.red +
+			'\n│'.red + (new Date() + '').red +
+			'\n│'.red + username.blue + ' changed :' +
+			'\n│'.red +
+			'\n│'.red + '"' + oldContent.cyan + '"' +
+			'\n│'.red + 'to' +
+			'\n│'.red + '"' + newContent.cyan + '"' +
+			'\n│'.red +
+			'\n│'.red + 'on ' + servername.yellow + channelname.red +
+			'\n└──────────────────────────────────────────────────────\n'
+				.red
+	} else if (message) {
+		data =
+			'\n┌──────────────────────────────────────────────────────'.cyan +
+			'\n│'.cyan + (new Date() + '').cyan +
+			'\n│'.cyan + username.blue + ' said :' +
+			'\n│'.cyan +
+			'\n│'.cyan + '"' + oldContent.yellow + '"' +
+			'\n│'.cyan +
+			'\n│'.cyan + ' on ' + servername.yellow + channelname.red +
+			'\n└──────────────────────────────────────────────────────\n'
+				.cyan
+	}
+	console.log(data)
+}
+export { printSentMessage, sentMessage, changedMessage }
