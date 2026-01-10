@@ -6,11 +6,13 @@ This is a discord bot originally based off of my friend Eddy.
 
 ## Usage
 
-Go to [https://discord.com/developers/applications](https://discord.com/developers/applications) and create an application, copy the token, and put it into a config.json file like the following:
+Go to [https://discord.com/developers/applications](https://discord.com/developers/applications) and create an application, copy the token and client id,and get the guild id of your dev server and put it into a config.json file like the following:
 
 ```json
 {
- "token":"token-from-discord-developers-page"
+ "token":"token-from-discord-developers-page",
+ "clientId":"application-id-from-discord-developers-page",
+ "guildId":"guild-id-of-dev-server"
 }
 ```
 
