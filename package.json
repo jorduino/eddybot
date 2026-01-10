@@ -1,6 +1,6 @@
 {
 	"name": "eddybot",
-	"version": "1.0.0",
+	"version": "2.0.0",
 	"description": "Discord Bot for fun",
 	"main": "bot.js",
 	"dependencies": {
@@ -12,7 +12,7 @@
 	},
 	"scripts": {
 		"test": "echo error no test provided.",
-		"start": "node bot.js"
+		"start": "bun bot.js"
 	},
 	"repository": {
 		"type": "git",
@@ -28,5 +28,12 @@
 		"url": "https://github.com/jorduino/eddybot/issues"
 	},
 	"homepage": "https://github.com/jorduino/eddybot#readme",
-	"type": "module"
+	"type": "module",
+	"private": true,
+	"devDependencies": {
+		"@types/bun": "latest"
+	},
+	"peerDependencies": {
+		"typescript": "^5"
+	}
 }
