@@ -1,32 +1,39 @@
-import { SlashCommandBuilder, EmbedBuilder } from 'discord.js'
-import Algebrite from 'algebrite'
+import { SlashCommandBuilder, EmbedBuilder, MessageFlags } from "discord.js";
+import Algebrite from "algebrite";
 
 export default {
 	data: new SlashCommandBuilder()
-		.setName('solve')
-		.setDescription('Uses algebrite CAS to solve an expression, returns an image of result')
+		.setName("solve")
+		.setDescription("Uses algebrite CAS to solve an expression, returns an image of result")
 		.addStringOption(option =>
-			option.setName('expression')
-				.setDescription('Algebrite expression')
-				.setRequired(true))
+			option.setName("expression").setDescription("Algebrite expression").setRequired(true),
+		)
 		.addStringOption(option =>
-			option.setName('background')
-				.setDescription('Background color of image (black by default)')
+			option
+				.setName("background")
+				.setDescription("Background color of image (black by default)")
 				.addChoices(
-					{ name: 'Black', value: 'bg_black' },
-					{ name: 'White', value: 'bg_white' },
-					{ name: 'Transparent', value: '\\' },
-				)),
+					{ name: "Black", value: "\\bg_black" },
+					{ name: "White", value: "\\bg_white" },
+					{ name: "Transparent", value: " " },
+				),
+		),
 	async execute(interaction, args) {
-		const expression = interaction.options.getString('expression');
+		const expression = interaction.options.getString("expression");
 		let evaluation = Algebrite.run(`printlatex(${expression})`);
-		let bg = interaction.options.getString('background');
+		let bg = (interaction.options.getString("background") ?? "\\bg_black").trim();
 
-		let clnEval = evaluation.replace(/ /g, "&space;")
-		const latexImage = new EmbedBuilder()
-			.setTitle("`" + expression + ":`")
-			.setImage(`https://latex.codecogs.com/png.latex?\\${bg}&space;\\huge&space;${clnEval}`);
-
-		await interaction.reply({ embeds: [latexImage] });
-	}
-}
+		let clnEval = evaluation.replace(/ /g, "&space;");
+		const url = `https://latex.codecogs.com/png.latex?${bg}\\huge&space;${clnEval}`;
+		try {
+			const latexImage = new EmbedBuilder().setTitle("`" + expression + ":`").setImage(url);
+			await interaction.reply({ embeds: [latexImage] });
+		} catch (err) {
+			console.error(`Error creating latexImage with url "${url}"!\n${err}`);
+			await interaction.reply({
+				content: "There was an error solving that.",
+				flags: MessageFlags.Ephemeral,
+			});
+		}
+	},
+};
