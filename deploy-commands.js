@@ -22,7 +22,7 @@ export default async () => {
 
 	const rest = new REST({ version: '10' }).setToken(token);
 
-	rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands })
+	await rest.put(Routes.applicationCommands(clientId), { body: commands })
 		.then(() => console.log('Successfully registered application commands.'))
 		.catch(e => console.error("Error registering commands!\n" + e));
 }
