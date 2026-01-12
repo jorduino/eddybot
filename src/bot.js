@@ -3,9 +3,8 @@ import path from "node:path";
 import Figlet from "figlet";
 import deploy_commands from "./deploy-commands.js";
 import { Client, Collection, GatewayIntentBits, MessageFlags } from "discord.js";
-import config from "./config.json" with { type: "json" };
+import config from "../config.json" with { type: "json" };
 const token = config.token;
-import { printSentMessage } from "./printMsg.js";
 import { fileURLToPath } from "node:url";
 
 const __filename = fileURLToPath(import.meta.url);
