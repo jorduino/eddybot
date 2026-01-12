@@ -11,8 +11,8 @@
 		"fs": "^0.0.1-security"
 	},
 	"scripts": {
-		"test": "echo error no test provided.",
-		"start": "bun bot.js"
+		"test": "bun test",
+		"start": "bun src/bot.js"
 	},
 	"repository": {
 		"type": "git",
