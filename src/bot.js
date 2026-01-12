@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import Figlet from "figlet";
 import deploy_commands from "./deploy-commands.js";
-import { Client, Collection, GatewayIntentBits, MessageFlags } from "discord.js";
+import { Client, GatewayIntentBits, MessageFlags } from "discord.js";
 import config from "../config.json" with { type: "json" };
 const token = config.token;
 import { fileURLToPath } from "node:url";
@@ -12,18 +12,7 @@ const __dirname = path.dirname(__filename);
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
-await deploy_commands();
-
-client.commands = new Collection();
-const commandsPath = path.join(__dirname, "commands");
-const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith(".js"));
-
-for (const file of commandFiles) {
-	const filePath = path.join(commandsPath, file);
-	// const fileUrl = pathToFileURL(filePath).href;
-	const { default: command } = await import(filePath);
-	client.commands.set(command.data.name, command);
-}
+await deploy_commands(client,config);
 
 client
 	.once("clientReady", async () => {
