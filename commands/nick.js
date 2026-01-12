@@ -23,7 +23,6 @@ export default {
 			}
 			await interaction.reply({
 				content: `Successfully changed ${targetUser}'s nickname to ${newNickname}`,
-				flags: MessageFlags.Ephemeral,
 			});
 		} catch (error) {
 			console.error("Couldn't change nickname\n" + error);
