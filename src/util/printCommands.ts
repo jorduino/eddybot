@@ -5,5 +5,5 @@ export default (commandJSONList: RESTPostAPIApplicationCommandsJSONBody[]) => {
 	commandJSONList.forEach(commandJSON => {
 		commandList.push(commandJSON.name);
 	});
-	return "Successfully registered these\n" + commandList.join("\n");
+	return "Successfully registered these commands:\n" + commandList.join("\n");
 };

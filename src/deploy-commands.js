@@ -3,6 +3,7 @@ import path from "node:path";
 import { REST } from "@discordjs/rest";
 import { Collection, Routes } from "discord.js";
 import { fileURLToPath } from "node:url";
+import printCommands from "./util/printCommands";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -25,6 +26,6 @@ export default async (client, config) => {
 
 	await rest
 		.put(Routes.applicationCommands(clientId), { body: commands })
-		.then(() => console.log("Successfully registered application commands."))
+		.then(() => console.log(printCommands(commands)))
 		.catch(e => console.error("Error registering commands!\n" + e));
 };
