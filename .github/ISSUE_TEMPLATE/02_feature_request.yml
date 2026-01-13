@@ -10,8 +10,8 @@ body:
           label: Request
           description: Please list the feature or improvement you would like.
           placeholder: A command that will ...
-          validations:
-              required: true
+      validations:
+          required: true
 
     - type: textarea
       id: ideas
