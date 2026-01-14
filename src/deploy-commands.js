@@ -1,8 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { REST } from "@discordjs/rest";
 import { Collection, Routes } from "discord.js";
-import { fileURLToPath } from "node:url";
 import printCommands from "./util/printCommands";
 
 const __filename = fileURLToPath(import.meta.url);

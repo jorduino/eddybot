@@ -1,10 +1,11 @@
-import fs from "node:fs";
 import path from "node:path";
-import Figlet from "figlet";
-import deploy_commands from "./deploy-commands.js";
 import { Client, GatewayIntentBits, MessageFlags } from "discord.js";
+import Figlet from "figlet";
 import config from "../config.json" with { type: "json" };
+import deployCommands from "./deploy-commands.js";
+
 const token = config.token;
+
 import { fileURLToPath } from "node:url";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -12,13 +13,13 @@ const __dirname = path.dirname(__filename);
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
-await deploy_commands(client,config);
+await deployCommands(client, config);
 
 client
 	.once("clientReady", async () => {
 		//prints bot's name in large ascii
 		// console.clear();
-		Figlet(client.user.username, function (err, data) {
+		Figlet(client.user.username, (err, data) => {
 			if (err) {
 				console.log(constants.bot.user.username.toUpperCase());
 				console.dir(err);

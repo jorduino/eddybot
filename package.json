@@ -12,7 +12,8 @@
 	},
 	"scripts": {
 		"test": "bun test",
-		"start": "bun src/bot.js"
+		"start": "bun src/bot.js",
+		"lint": "biome check"
 	},
 	"repository": {
 		"type": "git",
@@ -31,6 +32,7 @@
 	"type": "module",
 	"private": true,
 	"devDependencies": {
+		"@biomejs/biome": "^2.3.11",
 		"@types/bun": "latest"
 	},
 	"peerDependencies": {

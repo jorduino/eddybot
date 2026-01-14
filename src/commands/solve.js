@@ -1,5 +1,5 @@
-import { SlashCommandBuilder, EmbedBuilder, MessageFlags } from "discord.js";
 import Algebrite from "algebrite";
+import { EmbedBuilder, MessageFlags, SlashCommandBuilder } from "discord.js";
 
 export default {
 	data: new SlashCommandBuilder()
@@ -20,10 +20,10 @@ export default {
 		),
 	async execute(interaction, args) {
 		const expression = interaction.options.getString("expression");
-		let evaluation = Algebrite.run(`printlatex(${expression})`);
-		let bg = (interaction.options.getString("background") ?? "\\bg_black").trim();
+		const evaluation = Algebrite.run(`printlatex(${expression})`);
+		const bg = (interaction.options.getString("background") ?? "\\bg_black").trim();
 
-		let clnEval = evaluation.replace(/ /g, "&space;");
+		const clnEval = evaluation.replace(/ /g, "&space;");
 		const url = `https://latex.codecogs.com/png.latex?${bg}\\huge&space;${clnEval}`;
 		try {
 			const latexImage = new EmbedBuilder().setTitle("`" + expression + ":`").setImage(url);

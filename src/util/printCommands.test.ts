@@ -1,4 +1,4 @@
-import { test, expect } from "bun:test";
+import { expect, test } from "bun:test";
 import { InteractionContextType, SlashCommandBuilder } from "discord.js";
 import printCommands from "./printCommands";
 
