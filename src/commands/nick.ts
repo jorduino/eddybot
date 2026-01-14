@@ -1,4 +1,9 @@
-import { InteractionContextType, MessageFlags, SlashCommandBuilder } from "discord.js";
+import {
+	ChatInputCommandInteraction,
+	InteractionContextType,
+	MessageFlags,
+	SlashCommandBuilder,
+} from "discord.js";
 
 export default {
 	data: new SlashCommandBuilder()
@@ -11,15 +16,25 @@ export default {
 			option.setName("nickname").setDescription("New nickname").setRequired(true),
 		)
 		.setContexts([InteractionContextType.Guild]),
-	async execute(interaction) {
-		const targetUser = interaction.options.getUser("user");
-		const newNickname = interaction.options.getString("nickname");
-		const guildMember = await interaction.guild.members.fetch(targetUser.id); // Get the GuildMember object
+	async execute(interaction: ChatInputCommandInteraction) {
+		if (!interaction.inCachedGuild()) {
+			await interaction.reply({
+				content: "This command can only be used in a server.",
+				flags: MessageFlags.Ephemeral,
+			});
+			return;
+		}
+
+		const targetUser = interaction.options.getUser("user", true);
+		const newNickname = interaction.options.getString("nickname", true);
+
+		const guildMember = await interaction.guild.members.fetch(targetUser.id);
+
 		try {
 			if (interaction.client.user.id === targetUser.id) {
-				await interaction.guild.members.me.setNickname(newNickname);
+				await interaction.guild.members.me?.setNickname(newNickname);
 			} else {
-				await guildMember.edit({ nick: newNickname }, "Bot changed the nickname");
+				await guildMember.edit({ nick: newNickname });
 			}
 			await interaction.reply({
 				content: `Successfully changed ${targetUser}'s nickname to ${newNickname}`,

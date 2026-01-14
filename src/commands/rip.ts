@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
 
 export default {
 	data: new SlashCommandBuilder()
@@ -9,12 +9,12 @@ export default {
 		)
 		.addStringOption(option => option.setName("born").setDescription("Year they were born"))
 		.addStringOption(option => option.setName("died").setDescription("Year they died")),
-	async execute(interaction) {
-		const user = interaction.options.getString("user");
-		const born = interaction.options.getString("born") || 420;
-		const died = interaction.options.getString("died") || 6969;
+	async execute(interaction: ChatInputCommandInteraction) {
+		const user = interaction.options.getString("user", true);
+		const born = interaction.options.getString("born") || "420";
+		const died = interaction.options.getString("died") || "6969";
 
-		interaction.reply(
+		await interaction.reply(
 			"Here lies " + user + "\nThey will be missed\n" + "Born:" + born + "\nDied:" + died,
 		);
 	},
