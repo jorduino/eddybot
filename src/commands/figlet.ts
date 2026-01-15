@@ -1,5 +1,5 @@
+import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
 import Figlet from "figlet";
-import { SlashCommandBuilder } from "discord.js";
 
 export default {
 	data: new SlashCommandBuilder()
@@ -8,9 +8,9 @@ export default {
 		.addStringOption(option =>
 			option.setName("message").setDescription("Message to figletify").setRequired(true),
 		),
-	async execute(interaction, args) {
-		let words = interaction.options.getString("message");
-		let out = "```\n" + (await Figlet.text(words)) + "\n```";
+	async execute(interaction: ChatInputCommandInteraction) {
+		const words = interaction.options.getString("message", true);
+		const out = "```\n" + (await Figlet.text(words)) + "\n```";
 		await interaction.reply(out);
 	},
 };

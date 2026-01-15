@@ -25,5 +25,6 @@
 		"noPropertyAccessFromIndexSignature": true,
 		"noImplicitAny": true,
 		"forceConsistentCasingInFileNames": true
-	}
+	},
+	"include": ["src"]
 }

@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
+import { ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
 
 export default {
 	data: new SlashCommandBuilder()
@@ -7,11 +7,11 @@ export default {
 		.addUserOption(option =>
 			option.setName("user").setDescription("User to get avatar from").setRequired(true),
 		),
-	async execute(interaction) {
-		const user = interaction.options.getUser("user");
+	async execute(interaction: ChatInputCommandInteraction) {
+		const user = interaction.options.getUser("user", true);
 		const profileImage = new EmbedBuilder()
 			.setTitle("Here is the profile picture")
-			.setImage(user.displayAvatarURL({ dynamic: true }));
+			.setImage(user.displayAvatarURL());
 
 		await interaction.reply({ embeds: [profileImage] });
 	},

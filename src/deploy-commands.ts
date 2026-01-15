@@ -1,19 +1,23 @@
 import fs from "node:fs";
 import path from "node:path";
-import { REST } from "@discordjs/rest";
-import { Collection, Routes } from "discord.js";
 import { fileURLToPath } from "node:url";
+import { REST } from "@discordjs/rest";
+import type { RESTPostAPIChatInputApplicationCommandsJSONBody } from "discord.js";
+import { Client, Collection, Routes } from "discord.js";
+import type { Command, Config } from "./types/commands"; // wherever you put them
 import printCommands from "./util/printCommands";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export default async (client, config) => {
+export default async (client: Client, config: Config) => {
 	const { clientId, token } = config;
-	const commands = [];
-	client.commands = new Collection();
+	const commands: RESTPostAPIChatInputApplicationCommandsJSONBody[] = [];
+	client.commands = new Collection<string, Command>();
 	const commandsPath = path.join(__dirname, "commands");
-	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith(".js"));
+	const commandFiles = fs
+		.readdirSync(commandsPath)
+		.filter(file => file.endsWith(".js") || file.endsWith(".ts"));
 
 	for (const file of commandFiles) {
 		const filePath = path.join(commandsPath, file);
