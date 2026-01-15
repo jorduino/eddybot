@@ -1,8 +1,8 @@
 import { expect, test } from "bun:test";
 import type { ChatInputCommandInteraction } from "discord.js";
-import ping from "../../commands/ping";
+import source from "../../commands/source";
 
-test('ping.execute replies with "Pong!"', async () => {
+test("source.execute replies with github source", async () => {
 	const calls: string[] = [];
 
 	const interaction = {
@@ -11,8 +11,8 @@ test('ping.execute replies with "Pong!"', async () => {
 		},
 	} as unknown as ChatInputCommandInteraction;
 
-	await ping.execute(interaction);
+	await source.execute(interaction);
 
 	expect(calls.length).toBe(1);
-	expect(calls[0]).toBe("Pong!");
+	expect(calls[0]).toBe("Heres my source code!\nhttps://github.com/jorduino/eddybot.git");
 });

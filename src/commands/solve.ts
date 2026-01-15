@@ -1,5 +1,10 @@
 import Algebrite from "algebrite";
-import { EmbedBuilder, MessageFlags, SlashCommandBuilder } from "discord.js";
+import {
+	ChatInputCommandInteraction,
+	EmbedBuilder,
+	MessageFlags,
+	SlashCommandBuilder,
+} from "discord.js";
 
 export default {
 	data: new SlashCommandBuilder()
@@ -18,7 +23,7 @@ export default {
 					{ name: "Transparent", value: " " },
 				),
 		),
-	async execute(interaction, args) {
+	async execute(interaction: ChatInputCommandInteraction) {
 		const expression = interaction.options.getString("expression");
 		const evaluation = Algebrite.run(`printlatex(${expression})`);
 		const bg = (interaction.options.getString("background") ?? "\\bg_black").trim();

@@ -6,19 +6,20 @@ import figletCommand from "../../commands/figlet";
 test("figlet.execute replies with wrapped figlet output", async () => {
 	const spy = spyOn(Figlet, "text").mockImplementation(async () => "BIG TEXT");
 
-	let replied: unknown;
+	const calls: string[] = [];
 
 	const interaction = {
 		options: { getString: () => "hello" },
-		reply: async (value: unknown) => {
-			replied = value;
+		reply: async (msg: string) => {
+			calls.push(msg);
 		},
 	} as unknown as ChatInputCommandInteraction;
 
 	await figletCommand.execute(interaction);
 
 	expect(spy).toHaveBeenCalledWith("hello");
-	expect(replied).toBe("```\nBIG TEXT\n```");
+	expect(calls.length).toBe(1);
+	expect(calls[0]).toBe("```\nBIG TEXT\n```");
 
 	spy.mockRestore();
 });

@@ -7,7 +7,7 @@ function createResponse(user: string, born: string, died: string) {
 }
 
 function createInteraction(values: { user: string; born?: string | null; died?: string | null }) {
-	const calls: unknown[] = [];
+	const calls: string[] = [];
 
 	const interaction = {
 		options: {
@@ -21,8 +21,8 @@ function createInteraction(values: { user: string; born?: string | null; died?: 
 				);
 			},
 		},
-		reply: async (value: unknown) => {
-			calls.push(value);
+		reply: async (msg: string) => {
+			calls.push(msg);
 		},
 	} as unknown as ChatInputCommandInteraction;
 

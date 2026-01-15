@@ -3,10 +3,10 @@ import type { ChatInputCommandInteraction } from "discord.js";
 import beep from "../../commands/beep";
 
 test('beep.execute replies with "Boop."', async () => {
-	const calls: unknown[] = [];
+	const calls: string[] = [];
 
 	const interaction = {
-		reply: async (msg: unknown) => {
+		reply: async (msg: string) => {
 			calls.push(msg);
 		},
 	} as unknown as ChatInputCommandInteraction;

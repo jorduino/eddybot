@@ -6,13 +6,13 @@ test("choose.execute replies with option1 when Math.random >= 0.5", async () => 
 	const originalRandom = Math.random;
 	Math.random = () => 0.9;
 
-	const calls: unknown[] = [];
+	const calls: string[] = [];
 
 	const interaction = {
 		options: {
 			getString: (name: string) => (name === "option1" ? "A" : "B"),
 		},
-		reply: async (value: unknown) => {
+		reply: async (value: string) => {
 			calls.push(value);
 		},
 	} as unknown as ChatInputCommandInteraction;
@@ -29,14 +29,14 @@ test("choose replies with option2 when Math.random < 0.5", async () => {
 	const originalRandom = Math.random;
 	Math.random = () => 0.1;
 
-	const calls: unknown[] = [];
+	const calls: string[] = [];
 
 	const interaction = {
 		options: {
 			getString: (name: string) => (name === "option1" ? "A" : "B"),
 		},
-		reply: async (value: unknown) => {
-			calls.push(value);
+		reply: async (msg: string) => {
+			calls.push(msg);
 		},
 	} as unknown as ChatInputCommandInteraction;
 
