@@ -14,7 +14,9 @@
 	"scripts": {
 		"test": "bun test",
 		"start": "bun src/bot.js",
-		"lint": "biome check"
+		"lint": "biome check",
+		"prepare": "husky",
+		"markdownlint": "markdownlint '**/*.md'"
 	},
 	"repository": {
 		"type": "git",
@@ -34,7 +36,10 @@
 	"private": true,
 	"devDependencies": {
 		"@biomejs/biome": "^2.3.11",
-		"@types/bun": "latest"
+		"@types/bun": "latest",
+		"husky": "^9.1.7",
+		"lint-staged": "^16.2.7",
+		"markdownlint-cli": "^0.47.0"
 	},
 	"peerDependencies": {
 		"typescript": "^5"
