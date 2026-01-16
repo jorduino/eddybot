@@ -22,4 +22,4 @@ Then `bun install` and `bun start`
 ## Commands
 
 All commands have been updated to the new slash commands that discord is now using with
-autocomplete. They can also be found in the `/commands` folder
+autocomplete. They can also be found in the `/commands` folder and will be logged to the console at bot startup.
