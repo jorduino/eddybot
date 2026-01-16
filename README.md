@@ -12,8 +12,8 @@ following:
 
 ```json
 {
-	"token": "token-from-discord-developers-page",
-	"clientId": "application-id-from-discord-developers-page"
+ "token": "token-from-discord-developers-page",
+ "clientId": "application-id-from-discord-developers-page"
 }
 ```
 
