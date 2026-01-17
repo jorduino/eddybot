@@ -1,6 +1,6 @@
 import { expect, test } from "bun:test";
 import type { ChatInputCommandInteraction } from "discord.js";
-import ping from "../../commands/ping";
+import ping from "../../src/commands/ping";
 
 test('ping.execute replies with "Pong!"', async () => {
 	const calls: string[] = [];

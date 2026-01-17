@@ -1,6 +1,6 @@
 import { expect, test } from "bun:test";
 import type { ChatInputCommandInteraction } from "discord.js";
-import choose from "../../commands/choose";
+import choose from "../../src/commands/choose";
 
 test("choose.execute replies with option1 when Math.random >= 0.5", async () => {
 	const originalRandom = Math.random;

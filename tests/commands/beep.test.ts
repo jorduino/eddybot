@@ -1,6 +1,6 @@
 import { expect, test } from "bun:test";
 import type { ChatInputCommandInteraction } from "discord.js";
-import beep from "../../commands/beep";
+import beep from "../../src/commands/beep";
 
 test('beep.execute replies with "Boop."', async () => {
 	const calls: string[] = [];

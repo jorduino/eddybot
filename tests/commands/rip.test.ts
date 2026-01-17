@@ -1,6 +1,6 @@
 import { expect, test } from "bun:test";
 import type { ChatInputCommandInteraction } from "discord.js";
-import rip from "../../commands/rip";
+import rip from "../../src/commands/rip";
 
 function createResponse(user: string, born: string, died: string) {
 	return "Here lies " + user + "\nThey will be missed\n" + "Born:" + born + "\nDied:" + died;
