@@ -2,7 +2,7 @@
 import { expect, test } from "bun:test";
 import type { ChatInputCommandInteraction } from "discord.js";
 import { MessageFlags } from "discord.js";
-import nick from "../../commands/nick";
+import nick from "../../src/commands/nick";
 
 type ReplyPayload = unknown;
 

@@ -4,7 +4,7 @@ import type {
 	EmbedBuilder,
 	InteractionReplyOptions,
 } from "discord.js";
-import avatar from "../../commands/avatar";
+import avatar from "../../src/commands/avatar";
 
 test("expect avatar.execute to return an embed containing the user's avatar URL", async () => {
 	const calls: InteractionReplyOptions[] = [];

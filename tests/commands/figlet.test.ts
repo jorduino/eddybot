@@ -1,7 +1,7 @@
 import { expect, spyOn, test } from "bun:test";
 import type { ChatInputCommandInteraction } from "discord.js";
 import Figlet from "figlet";
-import figletCommand from "../../commands/figlet";
+import figletCommand from "../../src/commands/figlet";
 
 test("figlet.execute replies with wrapped figlet output", async () => {
 	const spy = spyOn(Figlet, "text").mockImplementation(async () => "BIG TEXT");

@@ -4,7 +4,7 @@ import type {
 	EmbedBuilder,
 	InteractionReplyOptions,
 } from "discord.js";
-import solve from "../../commands/solve";
+import solve from "../../src/commands/solve";
 
 test("solve.execute replies with black bg", async () => {
 	const calls: InteractionReplyOptions[] = [];

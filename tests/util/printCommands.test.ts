@@ -1,6 +1,6 @@
 import { expect, test } from "bun:test";
 import { InteractionContextType, SlashCommandBuilder } from "discord.js";
-import printCommands from "../../util/printCommands";
+import printCommands from "../../src/util/printCommands";
 
 const PREFIX = "Successfully registered these commands:\n";
 

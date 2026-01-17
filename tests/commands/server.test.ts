@@ -4,7 +4,7 @@ import {
 	type InteractionReplyOptions,
 	MessageFlags,
 } from "discord.js";
-import server from "../../commands/server";
+import server from "../../src/commands/server";
 
 test("expect server.execute to return the guild's info", async () => {
 	const calls: string[] = [];
