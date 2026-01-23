@@ -1,6 +1,7 @@
 # Eddybot
 
 [![Tests](https://github.com/jorduino/eddybot/actions/workflows/tests.yml/badge.svg)](https://github.com/jorduino/eddybot/actions/workflows/tests.yml)
+[![GitHub Release](https://img.shields.io/github/v/release/jorduino/eddybot)](https://github.com/jorduino/eddybot/releases)
 
 ## About
 
