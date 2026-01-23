@@ -1,5 +1,9 @@
 import { Client, GatewayIntentBits, MessageFlags } from "discord.js";
 import Figlet from "figlet";
+import standard from "figlet/fonts/Standard";
+
+Figlet.parseFont("Standard", standard);
+
 import config from "../config.json" with { type: "json" };
 import deployCommands from "./deploy-commands.js";
 
