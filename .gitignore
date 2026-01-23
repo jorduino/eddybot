@@ -23,6 +23,9 @@ coverage
 build
 out
 
+# Generated command index
+src/commands/index.ts
+
 # Local config
 .claude
 config.json
