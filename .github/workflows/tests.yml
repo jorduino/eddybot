@@ -1,4 +1,4 @@
-name: Setup and Test
+name: Tests
 
 on: [push, pull_request]
 
