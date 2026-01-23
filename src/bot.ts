@@ -1,13 +1,25 @@
 import { Client, GatewayIntentBits, MessageFlags } from "discord.js";
 import Figlet from "figlet";
 import standard from "figlet/fonts/Standard";
+import deployCommands from "./deploy-commands.js";
+import type { Config } from "./types/commands";
 
 Figlet.parseFont("Standard", standard);
 
-import config from "../config.json" with { type: "json" };
-import deployCommands from "./deploy-commands.js";
+const token = process.env["DISCORD_TOKEN"];
+const clientId = process.env["DISCORD_CLIENT_ID"];
 
-const token = config.token;
+if (!token || !clientId) {
+	console.error("Missing required environment variables:");
+	if (!token) console.error("  - DISCORD_TOKEN is not set");
+	if (!clientId) console.error("  - DISCORD_CLIENT_ID is not set");
+	console.error("\nSet these variables before running the bot:");
+	console.error("  export DISCORD_TOKEN=your_bot_token");
+	console.error("  export DISCORD_CLIENT_ID=your_client_id");
+	process.exit(1);
+}
+
+const config: Config = { token, clientId };
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 

@@ -9,18 +9,32 @@ This is a discord bot originally based off of my friend Eddy.
 
 ## Usage
 
-Go to [https://discord.com/developers/applications](https://discord.com/developers/applications) and
-create an application, then copy the token and client id and put it into a config.json file like the
-following:
+1. Go to [https://discord.com/developers/applications](https://discord.com/developers/applications) and create an application
+2. Copy the token and client ID
+3. Set the environment variables:
 
-```json
-{
- "token": "token-from-discord-developers-page",
- "clientId": "application-id-from-discord-developers-page"
-}
-```
+   ```bash
+   export DISCORD_TOKEN=your_bot_token
+   export DISCORD_CLIENT_ID=your_client_id
+   ```
 
-Then `bun install` and `bun start`
+   Or create a `.env` file (see `.env.example`):
+
+   ```env
+   DISCORD_TOKEN=your_bot_token
+   DISCORD_CLIENT_ID=your_client_id
+   ```
+
+4. Install and run:
+
+   ```bash
+   bun install
+   bun start
+   ```
+
+### Using a pre-built binary
+
+Download the appropriate binary for your platform from the [releases page](https://github.com/jorduino/eddybot/releases), set the environment variables, and run it directly.
 
 ## Commands
 
