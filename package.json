@@ -1,6 +1,6 @@
 {
 	"name": "eddybot",
-	"version": "1.2.3",
+	"version": "1.3.0",
 	"description": "Discord Bot for fun",
 	"main": "bot.js",
 	"dependencies": {
@@ -13,11 +13,14 @@
 	},
 	"scripts": {
 		"test": "bun test",
+		"prestart": "bun src/scripts/generate-command-index.ts",
 		"start": "bun src/bot.ts",
 		"lint": "biome check",
 		"format": "bun biome check --write .",
 		"prepare": "husky",
-		"markdownlint": "markdownlint '**/*.md'"
+		"markdownlint": "markdownlint '**/*.md'",
+		"prebuild": "bun src/scripts/generate-command-index.ts",
+		"build": "bun run prebuild && bun build --compile --minify --sourcemap ./src/bot.ts --outfile ./dist/mybot"
 	},
 	"repository": {
 		"type": "git",
