@@ -62,6 +62,7 @@ jobs:
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           script: |
             cd /home/discordbot/eddybot
+            sudo systemctl stop discord-bot
             curl -L -o eddybot-linux-x64 "https://github.com/jorduino/eddybot/releases/download/${{ github.event.release.tag_name }}/eddybot-linux-x64"
             chmod +x eddybot-linux-x64
-            sudo systemctl restart discord-bot
+            sudo systemctl start discord-bot
