@@ -1,4 +1,7 @@
-import Algebrite from "algebrite";
+import nerdamer from "nerdamer";
+import "nerdamer/Algebra";
+import "nerdamer/Calculus";
+import "nerdamer/Solve";
 import {
 	ChatInputCommandInteraction,
 	EmbedBuilder,
@@ -9,9 +12,9 @@ import {
 export default {
 	data: new SlashCommandBuilder()
 		.setName("solve")
-		.setDescription("Uses algebrite CAS to solve an expression, returns an image of result")
+		.setDescription("Uses nerdamer CAS to solve an expression, returns an image of result")
 		.addStringOption(option =>
-			option.setName("expression").setDescription("Algebrite expression").setRequired(true),
+			option.setName("expression").setDescription("Math expression").setRequired(true),
 		)
 		.addStringOption(option =>
 			option
@@ -25,18 +28,32 @@ export default {
 		),
 	async execute(interaction: ChatInputCommandInteraction) {
 		const expression = interaction.options.getString("expression");
-		const evaluation = Algebrite.run(`printlatex(${expression})`);
-		const bg = (interaction.options.getString("background") ?? "\\bg_black").trim();
-
-		const clnEval = evaluation.replace(/ /g, "&space;");
-		const url = `https://latex.codecogs.com/png.latex?${bg}\\huge&space;${clnEval}`;
 		try {
-			const latexImage = new EmbedBuilder().setTitle("`" + expression + ":`").setImage(url);
-			await interaction.reply({ embeds: [latexImage] });
+			const evaluation = nerdamer(expression!).toTeX();
+			const bg = (interaction.options.getString("background") ?? "\\bg_black").trim();
+
+			const clnEval = evaluation.replace(/ /g, "&space;");
+			const url = `https://latex.codecogs.com/png.latex?${bg}\\huge&space;${clnEval}`;
+			try {
+				const latexImage = new EmbedBuilder()
+					.setTitle("`" + expression + ":`")
+					.setImage(url);
+				await interaction.reply({ embeds: [latexImage] });
+			} catch (err) {
+				console.error(`Error creating latexImage with url "${url}"!\n${err}`);
+				await interaction.reply({
+					content: "There was an error solving that.",
+					flags: MessageFlags.Ephemeral,
+				});
+			}
 		} catch (err) {
-			console.error(`Error creating latexImage with url "${url}"!\n${err}`);
+			console.error(`Error evaluating ${expression}:\n${err}`);
 			await interaction.reply({
-				content: "There was an error solving that.",
+				content: [
+					`There was an error solving that:`,
+					`Expression: \`${expression}\``,
+					`Error: \`${err instanceof Error ? err.message : String(err)}\``,
+				].join("\n"),
 				flags: MessageFlags.Ephemeral,
 			});
 		}
